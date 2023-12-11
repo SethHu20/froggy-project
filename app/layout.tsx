@@ -13,13 +13,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Froggy Project',
     description: 'Collection of fun projects made with love',
-    url: '/',
+    url: 'https://froggy-project.vercel.app',
     siteName: 'froggy-project.vercel.app',
     images: [
       {
-        url: '/at-glass-logo.png',
-        width: 800,
-        height: 600,
+        url: 'https://froggy-project.vercel.app/at-glass-logo.png',
+        width: 2894,
+        height: 2894,
       }
     ],
     locale: 'en_US',
