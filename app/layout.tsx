@@ -13,16 +13,6 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Froggy Project',
     description: 'Collection of fun projects made with love',
-    url: 'https://froggy-project.vercel.app',
-    siteName: 'froggy-project.vercel.app',
-    images: [
-      {
-        url: 'https://froggy-project.vercel.app/at-glass-logo.png',
-        width: 2894,
-        height: 2894,
-      }
-    ],
-    locale: 'en_US',
     type: 'website',
   },
 }
