@@ -3,13 +3,6 @@ import Image from "next/image";
 import logo from "@/public/at-glass-logo.png";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
-export const metadata = {
-    openGraph: {
-      title: 'Froggy Project',
-      description: 'Skill Issue',
-    },
-  }
-
 
 export default function LandingLayout({
   children,
