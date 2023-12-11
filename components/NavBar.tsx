@@ -3,6 +3,8 @@ import Image from "next/image";
 import logo from "@/public/at-glass-logo.png";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
+
+
 export default function NavBar() {
   return (
     <nav>
