@@ -7,7 +7,7 @@ export default function Home() {
     <main className=' bg-red-600 flex min-h-screen flex-col items-center justify-between p-24'>
       <nav>
         {myProjects.map((name, index) => (
-          <Link href={`/${name}`}>{name}</Link>
+          <Link href={`/${name}`} key={index}>{name}</Link>
         ))}
       </nav>
       <div className='max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex'>

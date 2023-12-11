@@ -25,11 +25,13 @@ export default function ChessPage() {
       >
         {testBoard.map((row, i) => (
           <div
+            key={i}
             role='row'
             className='grid grid-cols-8'
           >
-            {row.map((cols, j) => (
+            {row.map((_, j) => (
               <div
+                key={i << 3 + j}
                 role='gridcell'
                 className={`h-full w-full ${
                   (i + j) % 2 ? 'bg-yellow-900' : 'bg-yellow-50'
