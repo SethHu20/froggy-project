@@ -4,9 +4,10 @@ export const metadata = {
 
 export default function GamesPage() {
     return (
-      <div>
-        <h1>Welcome to the Project Page!</h1>
-      </div>
+      <main className="flex flex-col space-y-10">
+        <h1 className="text-5xl">Projects</h1>
+        <p>List of projects</p>
+      </main>
     );
   }
   
