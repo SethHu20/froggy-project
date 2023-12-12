@@ -23,6 +23,9 @@ Here's a short list for what the project directory should look like:
 - pages
   - docs
     - ...
+- components
+- public
+- chess *
 
 More details and justification are found in here:
 
@@ -51,3 +54,15 @@ As mentioned in [app](#app), you should not add anything project related in this
 ### docs
 
 This is where the documentation pages are stored.
+
+## components
+
+As of now, this directory stores the individual UI components (.tsx files) that are used to build the landing pages. We encourage splitting up the UI into reusable components that can find its use in individual project web pages.
+
+## public
+
+This directory contains all kinds of assets, such as images and multimedia, but also any other resources that aren't just code, and often takes up megabytes of storage or more.
+
+## * Project directories (eg. Chess)
+
+As mentioned above when discussing monorepos, we are currently experimenting with trying to put as much project code and logic in their project directory directly accessible from the root folder. Using chess project as example, codebase such as chess engine, especially non-Typescrip code goes in `@/chess` directory. The corresponding `@/app/(projects)/chess` directory would only be used for UI related code, since it was there originally for the Next.js routing features. This *may potentially* help with Next.js when it tries to build the routing as it no longer needs to work with other non-relevant code for the web page, but more importantly we keep the Next.js territory clean, allowing us to have more freedom working within the root project directory, such as using Rust build tools and more.
