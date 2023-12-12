@@ -14,18 +14,19 @@ export default function LandingLayout({
   return (
     <div className="bg-slate-800 text-white flex flex-col items-center h-screen min-h-screen w-full min-w-fit">
       <div className=" flex flex-col items-center max-w-screen-lg w-full px-10">
-        <header className="flex flex-row justify-between items-center w-full flex-wrap gap-4 py-10">
+        <header className="flex flex-row justify-between items-center w-full flex-wrap gap-4 pt-5 pb-10">
           <Link
             href="/"
-            className="flex flex-row items-center text-xl space-x-6 text-gray-100 w-fit"
+            className="group flex flex-row items-center text-xl space-x-3 text-gray-100 w-fit hover:bg-blue-100 hover:text-slate-900 p-3 rounded-full transition-all"
           >
             <Image
               src={logo}
               alt="Froggy Project Logo"
               width={50}
               height={50}
+              className="drop-shadow-3xl group-hover:animate-standingBounce"
             />
-            <span className="">
+            <span className="pr-3">
               <strong>Froggy Project</strong>
             </span>
           </Link>
