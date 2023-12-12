@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  output: "export",
+  images: {
+    unoptimized: true,
+  },
+};
 
 // Support for Markdown style documentation using Nextra
 const withNextra = require("nextra")({
