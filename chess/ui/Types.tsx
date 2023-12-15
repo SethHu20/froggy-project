@@ -10,17 +10,18 @@ import QueenBlack from "@/public/pieces/cburnett/Chess_qdt45.svg";
 import QueenWhite from "@/public/pieces/cburnett/Chess_qlt45.svg";
 import RookBlack from "@/public/pieces/cburnett/Chess_rdt45.svg";
 import RookWhite from "@/public/pieces/cburnett/Chess_rlt45.svg";
+import { Position } from "react-rnd";
 
-export type Piece = "bishop" | "king" | "knight" | "pawn" | "queen" | "rook";
+export type PieceType = "bishop" | "king" | "knight" | "pawn" | "queen" | "rook";
 
 export type Player = "black" | "white";
 
-export type PieceType = {
+export type PlayerPiece = {
   player: Player;
-  piece: Piece;
+  piece: PieceType;
 };
 
-export const get_svg = (piece: PieceType) => {
+export const get_svg = (piece: PlayerPiece) => {
   switch (piece.piece) {
     case "bishop":
       return piece.player === "black" ? BishopBlack : BishopWhite;
@@ -36,3 +37,16 @@ export const get_svg = (piece: PieceType) => {
       return piece.player === "black" ? RookBlack : RookWhite;
   }
 };
+
+
+/**
+ * Represents information about a chess piece with a unique key.
+ */
+export type KeyedPieceInfo = {
+  key: number;
+  piece: PlayerPiece;
+  position: Position;
+};
+
+export const WIDTH = 8;
+export const HEIGHT = 8;

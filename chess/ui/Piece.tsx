@@ -1,27 +1,33 @@
 "use client";
 
 import Image from "next/image";
-import { PieceType, get_svg } from "./PieceType";
-import { Rnd } from "react-rnd";
+import { PlayerPiece, get_svg } from "./Types";
+import { Position, Rnd } from "react-rnd";
 
 export default function Piece({
   piece,
   size,
-  origin,
-  updatePieceLocation
+  position,
+  onDragStop,
 }: {
-  piece: PieceType;
+  piece: PlayerPiece;
   size: number;
-  origin: { x: number; y: number };
-  updatePieceLocation: (x: number, y: number) => void;
+  position: { x: number; y: number };
+  onDragStop: (_: any, data: Position) => void;
 }) {
   return (
+    /**
+     * React-rnd is a resizable (which I'm not using here, but the size is still
+     * determined by ChessMainUI depending on the viewport size) and draggable
+     * component utility library. The size, position, and onDragStop props are
+     * used to determine the size, position, and callback for when the piece is
+     * dragged, respectively. The bounds prop is set to "parent" so that the
+     * piece cannot be dragged outside of the viewport.
+     */
     <Rnd
       size={{ width: size, height: size }}
-      position={origin}
-      onDragStop={(e, d) => {
-        updatePieceLocation(d.x, d.y);
-      }}
+      position={position}
+      onDragStop={onDragStop}
       bounds="parent"
       enableResizing={false}
       enableUserSelectHack={true}
