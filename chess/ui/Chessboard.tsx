@@ -1,5 +1,4 @@
-const WIDTH = 8;
-const HEIGHT = 8;
+import { HEIGHT, WIDTH } from "./Types";
 
 const getCoord = (i: number, j: number) => {
   return `${String.fromCharCode(104 - i)}${j + 1}`;
