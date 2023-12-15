@@ -1,4 +1,4 @@
-import { HEIGHT, WIDTH } from "./Types";
+import { HEIGHT, WIDTH } from "../Types";
 
 const getCoord = (i: number, j: number) => {
   return `${String.fromCharCode(104 - i)}${j + 1}`;
@@ -25,7 +25,7 @@ export default function Chessboard({
                 key={i * WIDTH + j}
                 role="gridcell"
                 className={`h-full w-full align-bottom relative ${
-                  (i + j) % 2 ? "bg-[#586378]" : "bg-yellow-100 text-slate-800"
+                  (i + j) % 2 ? "bg-[#586378]" : "bg-[#feeec2] text-slate-800"
                 }`}
               >
                 <span className="absolute bottom-0 left-1 select-none">
