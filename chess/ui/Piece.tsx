@@ -32,7 +32,7 @@ export default function Piece({
       bounds="parent"
       enableResizing={false}
       enableUserSelectHack={true}
-      className="hover:bg-blue-400 hover:bg-opacity-30 active:bg-opacity-0"
+      className="hover:bg-blue-400 hover:bg-opacity-30 active:bg-opacity-0 pointer-events-auto"
     >
       <Image
         alt={`${piece.player} ${piece.piece}`}

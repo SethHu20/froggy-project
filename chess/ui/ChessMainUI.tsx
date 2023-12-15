@@ -96,7 +96,7 @@ export default function ChessMainUI() {
     if (ui.current === undefined) return { x: 0, y: 0 };
     const rect = ui.current.getBoundingClientRect();
     return { x: (rect.width - getBoardSize(ui)) / 2, y: rect.y };
-  }
+  };
 
   /**
    * This effect is run once when the component is mounted.
@@ -224,7 +224,7 @@ export default function ChessMainUI() {
           position={getBoardPosition(ui)}
         />
       </div>
-      <div className="absolute h-screen w-screen top-0" id={PIECES_DIV_ID}>
+      <div className="absolute h-screen w-screen top-0 pointer-events-none" id={PIECES_DIV_ID}>
         {
           // Renders the chess pieces.
           pieces.current.map((piece) => {
