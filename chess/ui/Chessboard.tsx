@@ -1,7 +1,7 @@
 import { HEIGHT, WIDTH } from "../Types";
 
 const getCoord = (i: number, j: number) => {
-  return `${String.fromCharCode(104 - i)}${j + 1}`;
+  return `${String.fromCharCode(97 + j)}${8 - i}`;
 };
 
 export default function Chessboard({

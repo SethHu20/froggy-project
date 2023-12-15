@@ -224,7 +224,10 @@ export default function ChessMainUI() {
           position={getBoardPosition(ui)}
         />
       </div>
-      <div className="absolute h-screen w-screen top-0 pointer-events-none" id={PIECES_DIV_ID}>
+      <div
+        className="absolute h-screen w-screen top-0 pointer-events-none"
+        id={PIECES_DIV_ID}
+      >
         {
           // Renders the chess pieces.
           pieces.current.map((piece) => {
