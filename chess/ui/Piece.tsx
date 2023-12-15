@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { PlayerPiece, get_svg } from "./Types";
-import { Position, Rnd } from "react-rnd";
+import { get_svg } from "./SVG";
+import { Rnd } from "react-rnd";
+import { PlayerPiece, Position } from "../Types";
 
 export default function Piece({
   piece,

@@ -3,12 +3,19 @@
 import Chessboard from "@/chess/ui/Chessboard";
 import { useEffect, useReducer, useRef } from "react";
 import lodash from "lodash";
-import { HEIGHT, KeyedPieceInfo, WIDTH } from "./Types";
+import {
+  HEIGHT,
+  ViewModelPiece,
+  WIDTH,
+  Position,
+  ViewModelPieceArray,
+} from "../Types";
 import Piece from "./Piece";
-import { Position } from "react-rnd";
+import { populateChessMainUI } from "./utils";
 
 const PIECES_DIV_ID = "piece-div";
 const CHESSBOARD_ID = "chessboard-main";
+const MAIN_UI_ID = "main-ui";
 
 /**
  * Renders the main UI for the Chess game.
@@ -22,7 +29,7 @@ export default function ChessMainUI() {
   /**
    * The chess pieces.
    */
-  const pieces = useRef<Array<KeyedPieceInfo>>([
+  const pieces = useRef<ViewModelPieceArray>([
     {
       key: 0,
       piece: { player: "white", piece: "king" },
@@ -57,8 +64,15 @@ export default function ChessMainUI() {
    * @param data The new position data.
    */
   const pieceLocationUpdater =
-    (piece: KeyedPieceInfo) => (_: any, position: Position) => {
-      pieces.current[piece.key] = { ...pieces.current[piece.key], position };
+    (piece: ViewModelPiece) => (_: any, position: Position) => {
+      const index = pieces.current.findIndex((p) => p.key == piece.key);
+      pieces.current[index] = {
+        ...pieces.current[index],
+        position: {
+          x: position.x,
+          y: position.y,
+        },
+      };
       forceUpdate();
     };
 
@@ -88,7 +102,7 @@ export default function ChessMainUI() {
         /**
          * The new window width and height.
          * This is used to clamp the new positions of the chess pieces.
-         * 
+         *
          * The chess pieces SVG has its origin at the top left corner, therefore
          * the window dimensions are subtracted by the width and height of the
          * chess piece size respectively. So the chess pieces will not end up
@@ -115,9 +129,12 @@ export default function ChessMainUI() {
 
           // calculate the resize ratio, if the width of the chessboard
           // changed, then the pieces should be resized as well
-          if (newRect.width != oldRect.width || newRect.height != oldRect.height) {
-            x = (x - newRect.x) * newRect.width / oldRect.width + newRect.x;
-            y = (y - newRect.y) * newRect.height / oldRect.height + newRect.y;
+          if (
+            newRect.width != oldRect.width ||
+            newRect.height != oldRect.height
+          ) {
+            x = ((x - newRect.x) * newRect.width) / oldRect.width + newRect.x;
+            y = ((y - newRect.y) * newRect.height) / oldRect.height + newRect.y;
           }
 
           return {
@@ -141,9 +158,12 @@ export default function ChessMainUI() {
       if (elem !== null) {
         console.log("loaded chessboard", elem);
         board.current = elem;
-        chessBoardRect.current = elem.getBoundingClientRect();
+        const rect = elem.getBoundingClientRect();
+        chessBoardRect.current = rect;
         handleResize();
         clearInterval(pollChessBoardInterval);
+        populateChessMainUI(pieces, rect, forceUpdate);
+        console.log("loaded pieces", pieces.current);
       }
     }, 10);
 
@@ -158,14 +178,17 @@ export default function ChessMainUI() {
     };
   }, []);
 
+  console.log("rendering", pieces.current);
+
   return (
-    <div className="h-full w-full flex flex-col items-center">
-      <Chessboard showCoord={true} CHESSBOARD_ID={CHESSBOARD_ID} />
+    <div className="flex-1 flex flex-col items-center w-full overflow-hidden" id={MAIN_UI_ID}>
+      <div className="h-full w-full">
+        <Chessboard showCoord={true} CHESSBOARD_ID={CHESSBOARD_ID} />
+      </div>
+      <div className="flex-1"></div>
       <div className="absolute h-screen w-screen top-0" id={PIECES_DIV_ID}>
         {
-          /**
-           * Renders the chess pieces.
-           */
+          // Renders the chess pieces.
           pieces.current.map((piece) => {
             return (
               <Piece
