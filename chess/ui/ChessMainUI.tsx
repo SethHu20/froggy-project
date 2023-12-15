@@ -1,7 +1,7 @@
 "use client";
 
 import Chessboard from "@/chess/ui/Chessboard";
-import { useEffect, useReducer, useRef } from "react";
+import { MutableRefObject, useEffect, useReducer, useRef } from "react";
 import lodash from "lodash";
 import {
   HEIGHT,
@@ -21,6 +21,11 @@ const MAIN_UI_ID = "main-ui";
  * Renders the main UI for the Chess game.
  */
 export default function ChessMainUI() {
+  /**
+   * The main UI element.
+   */
+  const ui = useRef<HTMLElement>();
+
   /**
    * The chessboard element.
    */
@@ -75,6 +80,23 @@ export default function ChessMainUI() {
       };
       forceUpdate();
     };
+
+  /**
+   * The size of the chessboard.
+   * This is calculated by getting the minimum of the width and height of the
+   * chessboard element, and 800.
+   */
+  const getBoardSize = (ui: MutableRefObject<HTMLElement | undefined>) => {
+    if (ui.current === undefined) return 80;
+    const rect = ui.current.getBoundingClientRect();
+    return Math.min(rect.width, rect.height, 800);
+  };
+
+  const getBoardPosition = (ui: MutableRefObject<HTMLElement | undefined>) => {
+    if (ui.current === undefined) return { x: 0, y: 0 };
+    const rect = ui.current.getBoundingClientRect();
+    return { x: (rect.width - getBoardSize(ui)) / 2, y: rect.y };
+  }
 
   /**
    * This effect is run once when the component is mounted.
@@ -153,17 +175,28 @@ export default function ChessMainUI() {
     /**
      * Polls for the chessboard element.
      */
-    const pollChessBoardInterval = setInterval(() => {
-      const elem = document.getElementById(CHESSBOARD_ID);
-      if (elem !== null) {
-        console.log("loaded chessboard", elem);
-        board.current = elem;
-        const rect = elem.getBoundingClientRect();
-        chessBoardRect.current = rect;
-        handleResize();
-        clearInterval(pollChessBoardInterval);
-        populateChessMainUI(pieces, rect, forceUpdate);
-        console.log("loaded pieces", pieces.current);
+    const initPolling = setInterval(() => {
+      if (ui.current === undefined) {
+        const uiElem = document.getElementById(MAIN_UI_ID);
+        if (uiElem !== null) {
+          console.log("loaded main ui", uiElem);
+          ui.current = uiElem;
+          forceUpdate();
+        }
+      } else {
+        const boardElem = document.getElementById(CHESSBOARD_ID);
+        if (boardElem !== null) {
+          console.log("loaded chessboard", boardElem);
+          board.current = boardElem;
+
+          const rect = boardElem.getBoundingClientRect();
+          chessBoardRect.current = rect;
+
+          handleResize();
+          clearInterval(initPolling);
+          populateChessMainUI(pieces, rect, forceUpdate);
+          console.log("loaded pieces", pieces.current);
+        }
       }
     }, 10);
 
@@ -174,18 +207,23 @@ export default function ChessMainUI() {
     // when the component is unmounted
     return () => {
       window.removeEventListener("resize", handleResize);
-      clearInterval(pollChessBoardInterval);
+      clearInterval(initPolling);
     };
   }, []);
 
-  console.log("rendering", pieces.current);
-
   return (
-    <div className="flex-1 flex flex-col items-center w-full overflow-hidden" id={MAIN_UI_ID}>
+    <div
+      className="flex-1 flex flex-col items-center w-full overflow-hidden"
+      id={MAIN_UI_ID}
+    >
       <div className="h-full w-full">
-        <Chessboard showCoord={true} CHESSBOARD_ID={CHESSBOARD_ID} />
+        <Chessboard
+          showCoord={true}
+          CHESSBOARD_ID={CHESSBOARD_ID}
+          size={getBoardSize(ui)}
+          position={getBoardPosition(ui)}
+        />
       </div>
-      <div className="flex-1"></div>
       <div className="absolute h-screen w-screen top-0" id={PIECES_DIV_ID}>
         {
           // Renders the chess pieces.
