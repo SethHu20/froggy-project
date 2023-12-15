@@ -7,14 +7,19 @@ const getCoord = (i: number, j: number) => {
 export default function Chessboard({
   CHESSBOARD_ID,
   showCoord = true,
+  size,
+  position,
 }: {
   CHESSBOARD_ID: string;
   showCoord?: boolean;
+  size: number;
+  position: { x: number; y: number };
 }) {
   return (
     <div
       role="grid"
-      className={`grid grid-rows-8 aspect-square max-w-[800px] w-full text-red-50`}
+      className={`absolute grid grid-rows-8 text-red-50`}
+      style={{ width: size, height: size, left: position.x, top: position.y }}
       id={CHESSBOARD_ID}
     >
       {Array.from(Array(WIDTH)).map((_, i) => (
