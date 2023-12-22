@@ -9,16 +9,18 @@ export default function Chessboard({
   showCoord = true,
   size,
   position,
+  hidden
 }: {
   CHESSBOARD_ID: string;
   showCoord?: boolean;
   size: number;
   position: { x: number; y: number };
+  hidden?: boolean;
 }) {
   return (
     <div
       role="grid"
-      className={`absolute grid grid-rows-8 text-red-50`}
+      className={`absolute ${hidden ? "invisible" : "grid"} grid-rows-8 text-red-50`}
       style={{ width: size, height: size, left: position.x, top: position.y }}
       id={CHESSBOARD_ID}
     >

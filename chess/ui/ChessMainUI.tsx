@@ -11,7 +11,11 @@ import {
   ViewModelPieceArray,
 } from "../Types";
 import Piece from "./Piece";
-import { populateChessMainUI } from "./utils";
+import {
+  isOnBoardWithBoardAndPiece as isOnBoardGivenBoard,
+  populateChessMainUI,
+  relativeToAbsoluteCoordinates,
+} from "./utils";
 
 const PIECES_DIV_ID = "piece-div";
 const CHESSBOARD_ID = "chessboard-main";
@@ -133,12 +137,38 @@ export default function ChessMainUI() {
         let windowWidth = window.innerWidth - newRect.width / WIDTH;
         let windowHeight = window.innerHeight - newRect.height / HEIGHT;
 
+        const getIsOnBoard = isOnBoardGivenBoard(newRect, windowWidth / WIDTH);
+
+        const isResized =
+          newRect.width != oldRect.width || newRect.height != oldRect.height;
+
+        if (isResized) {
+          const relocater = 
+
+          pieces.current = pieces.current.map((p) => {
+            let position = p.position;
+            let isOnBoard = getIsOnBoard(position);
+
+            if (!isOnBoard) {
+              position = {
+                x: Math.max(0, Math.min(position.x, windowWidth)),
+                y: Math.max(0, Math.min(position.y, windowHeight)),
+              };
+            }
+
+            return {
+              ...p,
+              position,
+            };
+          });
+        }
+
         /**
          * Updates the positions of the chess pieces.
          */
         pieces.current = pieces.current.map((p) => {
-          let x = p.position.x;
-          let y = p.position.y;
+          let position = p.position;
+          let isOnBoard = getIsOnBoard(position);
 
           /**
            * The new x and y positions of the chess piece. This is calculated
@@ -146,22 +176,15 @@ export default function ChessMainUI() {
            * to the old x and y positions of the chess piece. The new x and y
            * positions are then clamped to the window width and height.
            */
-          x = Math.max(0, Math.min(x + newRect.x - oldRect.x, windowWidth));
-          y = Math.max(0, Math.min(y + newRect.y - oldRect.y, windowHeight));
+          // x = Math.max(0, Math.min(x + newRect.x - oldRect.x, windowWidth));
+          // y = Math.max(0, Math.min(y + newRect.y - oldRect.y, windowHeight));
 
           // calculate the resize ratio, if the width of the chessboard
           // changed, then the pieces should be resized as well
-          if (
-            newRect.width != oldRect.width ||
-            newRect.height != oldRect.height
-          ) {
-            x = ((x - newRect.x) * newRect.width) / oldRect.width + newRect.x;
-            y = ((y - newRect.y) * newRect.height) / oldRect.height + newRect.y;
-          }
 
           return {
             ...p,
-            position: { x, y },
+            position,
           };
         });
 
@@ -201,7 +224,7 @@ export default function ChessMainUI() {
     }, 10);
 
     // listen for window resize, and call handleResize when it happens
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", lodash.debounce(handleResize, 100));
 
     // cleanup window resize listener and chessboard poller if not cleaned up yet
     // when the component is unmounted
@@ -222,6 +245,7 @@ export default function ChessMainUI() {
           CHESSBOARD_ID={CHESSBOARD_ID}
           size={getBoardSize(ui)}
           position={getBoardPosition(ui)}
+          hidden={false}
         />
       </div>
       <div
