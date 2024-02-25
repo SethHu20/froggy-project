@@ -29,7 +29,7 @@ export type PlayerPiece = {
 /**
  * Since html elements originate from the top left corner, by convention, a
  * chessboard's top left corner is A8, and the bottom right corner is H1.
- * 
+ *
  * That means a relative position of (0, 0) is A8, and (7, 7) is H1.
  */
 
@@ -38,21 +38,16 @@ export type PlayerPiece = {
  */
 export type Position = { x: number; y: number };
 
-export type ViewportPosition = Position;
-export type relativePosition = Position;
-
 /**
- * A piece that is rendered on the screen. The key is used for React's
- * reconciliation algorithm. (I think copilot just bs'ed here but i'll leave
- * it here)
+ * A piece that is rendered on the screen.
  */
-export type ViewModelPiece = {
+export type PositionedPiece = {
   key: number;
   piece: PlayerPiece;
   position: Position;
 };
 
 /**
- * An array of ViewModelPiece.
+ * An array of PositionedPiece.
  */
-export type ViewModelPieceArray = Array<ViewModelPiece>;
+export type PositionedPieceArray = Array<PositionedPiece>;

@@ -3,83 +3,47 @@ import {
   BoardState,
   HEIGHT,
   Position,
-  ViewModelPiece,
-  ViewModelPieceArray,
+  PositionedPiece,
+  PositionedPieceArray,
   WIDTH,
 } from "../Types";
 import { initialBoardState } from "../BoardState";
 
-export function boardStateToRelativeCoordinates(
+export const boardStateToRelPos = (
   boardState: BoardState
-): ViewModelPieceArray {
-  return boardState.board.flatMap((row, y) => {
-    return row.map((piece, x) => {
-      return {
-        key: x + y * 8,
-        piece,
-        position: { x, y },
-      };
-    });
-  });
-}
-
-export function relativeToAbsoluteCoordinatesArray(
-  relative: ViewModelPieceArray,
-  origin: Position,
-  size: number
-): ViewModelPieceArray {
-  return relative.map((piece) => {
-    return {
-      ...piece,
-      position: {
-        x: origin.x + piece.position.x * size,
-        y: origin.y + piece.position.y * size,
-      },
-    };
-  });
-}
-
-export function populateChessMainUI(
-  pieces: MutableRefObject<ViewModelPieceArray>,
-  rect: DOMRect,
-  forceUpdate: () => void
-) {
-  pieces.current = relativeToAbsoluteCoordinatesArray(
-    boardStateToRelativeCoordinates(initialBoardState),
-    { x: rect.x, y: rect.y },
-    rect.width / 8
+): PositionedPieceArray =>
+  boardState.board.flatMap((row, y) =>
+    row.map((piece, x) => ({
+      key: x + y * 8,
+      piece,
+      position: { x, y },
+    }))
   );
-  forceUpdate();
-}
 
-export const relativeToAbsoluteCoordinates =
-  (origin: Position, size: number) => (piece: ViewModelPiece) => ({
-    ...piece,
-    position: {
-      x: origin.x + piece.position.x * size,
-      y: origin.y + piece.position.y * size,
-    },
+export const initialPositionedBoardState =
+  boardStateToRelPos(initialBoardState);
+
+export const relToAbsPos =
+  (origin: Position, size: number) =>
+  (pos: Position): Position => ({
+    x: origin.x + pos.x * size,
+    y: origin.y + pos.y * size,
   });
 
-export const absoluteToRelativeCoordinates =
-  (origin: Position, size: number) => (piece: ViewModelPiece) => ({
-    ...piece,
-    position: {
-      x: (piece.position.x - origin.x) / size,
-      y: (piece.position.y - origin.y) / size,
-    },
+export const absToRelPos =
+  (origin: Position, size: number) =>
+  (pos: Position): Position => ({
+    x: (pos.x - origin.x) / size,
+    y: (pos.y - origin.y) / size,
   });
 
-export const resizeLocationConverter = ()
-
-export const isOnBoardWithBoardAndPiece = (origin: Position, size: number) => (
-  position: Position
-) => {
+export const isOnBoardWithBoardAndPiece =
+  (origin: Position, size: number) => (position: Position) => {
     let halfSize = size / 2;
-  return (
-    position.x >= origin.x - halfSize &&
-    position.x < origin.x + size * WIDTH + halfSize &&
-    position.y >= origin.y - halfSize &&
-    position.y < origin.y + size * HEIGHT + halfSize
-  );
-}
+    return (
+      position.x >= origin.x - halfSize &&
+      position.x < origin.x + size * WIDTH + halfSize &&
+      position.y >= origin.y - halfSize &&
+      position.y < origin.y + size * HEIGHT + halfSize
+    );
+  };

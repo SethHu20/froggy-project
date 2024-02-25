@@ -1,4 +1,4 @@
-import { HEIGHT, WIDTH } from "../Types";
+import { HEIGHT, Position, WIDTH } from "../Types";
 
 const getCoord = (i: number, j: number) => {
   return `${String.fromCharCode(97 + j)}${8 - i}`;
@@ -9,18 +9,20 @@ export default function Chessboard({
   showCoord = true,
   size,
   position,
-  hidden
+  hidden,
 }: {
   CHESSBOARD_ID: string;
   showCoord?: boolean;
   size: number;
-  position: { x: number; y: number };
+  position: Position;
   hidden?: boolean;
 }) {
   return (
     <div
       role="grid"
-      className={`absolute ${hidden ? "invisible" : "grid"} grid-rows-8 text-red-50`}
+      className={`absolute ${
+        hidden ? "invisible" : "grid"
+      } grid-rows-8 text-red-50`}
       style={{ width: size, height: size, left: position.x, top: position.y }}
       id={CHESSBOARD_ID}
     >
