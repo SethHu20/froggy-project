@@ -1,12 +1,12 @@
-import Image from "next/image";
-import Link from "next/link";
+import { ProjectCard } from "@/components/project/ProjectCard";
+import projectData from "@/public/projects/project-list.json";
 
 export default function Home() {
+  let projects = projectData as ProjectProperty[];
   return (
-    <main className="flex flex-col justify-center items-center gap-4 text-white">
-      <h1 className="text-5xl text-center">Welcome To The Froggy project!</h1>
-
-      <p className="text-xl">We host degenerate projects here</p>
+    <main className="flex flex-col justify-center items-center w-full gap-4 text-white">
+      {projects.map(project => <ProjectCard key={project.id} {...project} />)}
+      <p>Froggy Project Team: Seth, Thien, Cros, Yao</p>
     </main>
   );
 }
