@@ -6,6 +6,7 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './chess/**/*.{js,ts,jsx,tsx,mdx}',
+    './game1/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
     extend: {
