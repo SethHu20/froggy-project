@@ -1,6 +1,15 @@
-import { MutableRefObject, Ref } from "react";
+import { MutableRefObject } from "react";
 import { GameState, GameStatus, defaultGameState } from "./tick";
 
+/**
+ * Keyboard input controller
+ * 
+ * Takes in a mutable reference to the game state for modifying player position,
+ * reading game status, and restarting the game.
+ * 
+ * @param gameStateRef mutable reference to the game state
+ * @returns 
+ */
 export const keyboardInputController = (
   gameStateRef: MutableRefObject<GameState>
 ) => {
@@ -27,7 +36,10 @@ export const keyboardInputController = (
         case "Enter":
         case " ":
         case "r":
-          gameStateRef.current = defaultGameState(gameStateRef.current.uiHooks, true);
+          gameStateRef.current = defaultGameState(
+            gameStateRef.current.uiHooks,
+            true
+          );
           break;
       }
     }
@@ -41,6 +53,17 @@ export enum MovementDirection {
   Right,
 }
 
+/**
+ * Mutates game state to move the player in the given direction
+ * 
+ * The player is moved in the given direction if the player is not at the edge
+ * of the game board.
+ * 
+ * The game board is a 9x9 grid with the player starting at the center (4, -4).
+ * 
+ * @param gameStateRef 
+ * @returns 
+ */
 export const movePlayer =
   (gameStateRef: MutableRefObject<GameState>) =>
   (movementDirection: MovementDirection) => {
