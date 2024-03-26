@@ -18,15 +18,19 @@ export const keyboardInputController = (
     if (e.repeat) return;
     if (gameStateRef.current.status === GameStatus.Running) {
       switch (e.key) {
+        case "w":
         case "ArrowUp":
           movePlayerWithState(MovementDirection.Up);
           break;
+        case "s":
         case "ArrowDown":
           movePlayerWithState(MovementDirection.Down);
           break;
+        case "a":
         case "ArrowLeft":
           movePlayerWithState(MovementDirection.Left);
           break;
+        case "d":
         case "ArrowRight":
           movePlayerWithState(MovementDirection.Right);
           break;
