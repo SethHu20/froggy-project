@@ -1,16 +1,56 @@
-import { HEIGHT, Position, WIDTH } from "../Types";
+import { CoordinatesConfig, HEIGHT, Position, WIDTH } from "../Types";
 
-const getCoord = (i: number, j: number) => {
-  return `${String.fromCharCode(97 + j)}${8 - i}`;
+/**
+ * Get coordinates components based on configuration.
+ * 
+ * @param i vertical index from top
+ * @param j horizontal index from left
+ * @param coordinatesConfig  coordinates configuration
+ * @returns
+ */
+const getCoordinatesComponent = (
+  i: number,
+  j: number,
+  coordinatesConfig: CoordinatesConfig
+) => {
+  let res = <></>;
+  if (coordinatesConfig === "axis") {
+    if (i === 7) {
+      res = (
+        <>
+          <span className="absolute bottom-0 right-1">
+            {String.fromCharCode(97 + j)}
+          </span>
+        </>
+      );
+    }
+    if (j === 0) {
+      res = (
+        <>
+          <span className="absolute top-1 left-1">{8 - i}</span>
+          {res.props.children}
+        </>
+      );
+    }
+  } else if (coordinatesConfig === "all") {
+    res = (
+      <>
+        <span className="absolute top-0 left-1">
+          {`${String.fromCharCode(97 + j)}${8 - i}`}
+        </span>
+      </>
+    );
+  }
+  return res;
 };
 
 export default function Chessboard({
-  showCoord = true,
+  coordinatesConfig,
   size,
   position,
   hidden,
 }: {
-  showCoord?: boolean;
+  coordinatesConfig: CoordinatesConfig;
   size: number;
   position: Position;
   hidden?: boolean;
@@ -34,9 +74,7 @@ export default function Chessboard({
                   (i + j) % 2 ? "bg-[#586378]" : "bg-[#feeec2] text-slate-800"
                 }`}
               >
-                <span className="absolute bottom-0 left-1 select-none">
-                  {showCoord ? getCoord(i, j) : ""}
-                </span>
+                {getCoordinatesComponent(i, j, coordinatesConfig)}
               </div>
             );
           })}

@@ -3,7 +3,12 @@
 import Chessboard from "@/chess/ui/Chessboard";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
-import { Position, PositionedPiece, PositionedPieceArray } from "../Types";
+import {
+  Position,
+  PositionedPiece,
+  PositionedPieceArray,
+  UIConfig,
+} from "../Types";
 import Piece from "./Piece";
 import {
   absToRelPos,
@@ -22,7 +27,7 @@ const SIDEBAR_MIN_HEIGHT = 200;
 /**
  * Renders the main UI for the Chess game.
  */
-export default function ChessMainUI() {
+export default function ChessMainUI({ config }: { config: UIConfig }) {
   /**
    * The main UI element.
    */
@@ -90,14 +95,16 @@ export default function ChessMainUI() {
         ui.current.clientHeight,
         portraitMode,
         SIDEBAR_MIN_WIDTH,
-        SIDEBAR_MIN_HEIGHT
+        SIDEBAR_MIN_HEIGHT,
+        config.sidebar
       )
     );
     const relativeChessBoardPosition = getChessBoardPosition(
       ui.current.clientWidth,
       ui.current.clientHeight,
       chessBoardSize,
-      portraitMode
+      portraitMode,
+      config.sidebar
     );
     setChessBoardPosition({
       x: relativeChessBoardPosition.x + ui.current.offsetLeft,
@@ -126,7 +133,7 @@ export default function ChessMainUI() {
       ref={ui}
     >
       <Chessboard
-        showCoord={true}
+        coordinatesConfig={config.coordinates}
         size={chessBoardSize}
         position={chessBoardPosition}
         hidden={ui.current === null}
@@ -159,9 +166,11 @@ export default function ChessMainUI() {
             : { width: chessBoardSize, height: 0 }
         }
       ></div>
-      <div className="bg-gray-800 basis-20 flex-grow">
-        <h2>Config Panel</h2>
-      </div>
+      {config.sidebar ? (
+        <div className="bg-gray-800 basis-20 flex-grow">
+          <h2>Config Panel</h2>
+        </div>
+      ) : null}
     </div>
   );
 }

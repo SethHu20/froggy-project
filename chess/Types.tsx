@@ -51,3 +51,17 @@ export type PositionedPiece = {
  * An array of PositionedPiece.
  */
 export type PositionedPieceArray = Array<PositionedPiece>;
+
+/**
+ * Config for showing coordinates, either show on all cells,
+ * show on axis, or show on none.
+ */
+export type CoordinatesConfig = "none" | "axis" | "all";
+
+/**
+ * Config for the UI
+ */
+export type UIConfig = {
+  coordinates: CoordinatesConfig;
+  sidebar: boolean;
+};

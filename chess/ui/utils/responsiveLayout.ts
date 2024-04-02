@@ -36,8 +36,12 @@ export const chessBoardSize = (
   height: number,
   isPortraitLayout: boolean,
   sideBarWidth: number,
-  sideBarHeight: number
+  sideBarHeight: number,
+  sidebar: boolean
 ) => {
+  if (!sidebar) {
+    return Math.min(width, height);
+  }
   if (isPortraitLayout) {
     return Math.min(width, height - sideBarHeight);
   }
@@ -62,8 +66,12 @@ export const chessBoardPosition = (
   width: number,
   height: number,
   chessBoardSize: number,
-  isPortraitLayout: boolean
+  isPortraitLayout: boolean,
+  sidebar: boolean
 ): Position => {
+  if (!sidebar) {
+    return { x: (width - chessBoardSize) / 2, y: (height - chessBoardSize) / 2 };
+  }
   if (isPortraitLayout) {
     return { x: (width - chessBoardSize) / 2, y: 0 };
   }
