@@ -1,14 +1,23 @@
 "use client";
 
 import Chessboard from "@/chess/ui/Chessboard";
+import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
-import { PositionedPiece, Position, PositionedPieceArray } from "../Types";
+import { Position, PositionedPiece, PositionedPieceArray } from "../Types";
 import Piece from "./Piece";
-import { absToRelPos, initialPositionedBoardState, relToAbsPos } from "./utils";
+import {
+  absToRelPos,
+  initialPositionedBoardState,
+  relToAbsPos,
+} from "./utils/position";
+import {
+  chessBoardPosition as getChessBoardPosition,
+  chessBoardSize as getChessBoardSize,
+  isPortraitLayout,
+} from "./utils/responsiveLayout";
 
-const PIECES_DIV_ID = "piece-div";
-const CHESSBOARD_ID = "chessboard-main";
-const MAIN_UI_ID = "main-ui";
+const SIDEBAR_MIN_WIDTH = 300;
+const SIDEBAR_MIN_HEIGHT = 200;
 
 /**
  * Renders the main UI for the Chess game.
@@ -20,15 +29,22 @@ export default function ChessMainUI() {
   const ui = useRef<HTMLDivElement>(null);
 
   /**
-   * The size and position of the chess board.
+   * The size of the chess board.
    */
-  const [chessBoardSizePos, setChessBoardSizePos] = useState<{
-    size: number;
-    position: Position;
-  }>({
-    size: 80,
-    position: { x: 0, y: 0 },
+  const [chessBoardSize, setChessBoardSize] = useState<number>(0);
+
+  /**
+   * The position of the chess board, in absolute position space.
+   */
+  const [chessBoardPosition, setChessBoardPosition] = useState<Position>({
+    x: 0,
+    y: 0,
   });
+
+  /**
+   * Whether to position chess board and config panels in portrait mode.
+   */
+  const [portraitMode, setPortraitMode] = useState<boolean>(true);
 
   /**
    * The chess pieces.
@@ -37,15 +53,9 @@ export default function ChessMainUI() {
     initialPositionedBoardState
   );
 
-  const relPosMapper = absToRelPos(
-    chessBoardSizePos.position,
-    chessBoardSizePos.size / 8
-  );
+  const relPosMapper = absToRelPos(chessBoardPosition, chessBoardSize / 8);
 
-  const absPosMapper = relToAbsPos(
-    chessBoardSizePos.position,
-    chessBoardSizePos.size / 8
-  );
+  const absPosMapper = relToAbsPos(chessBoardPosition, chessBoardSize / 8);
 
   /**
    * Updates the location of a chess piece.
@@ -70,13 +80,29 @@ export default function ChessMainUI() {
    * Handles the resize event.
    */
   const handleResize = () => {
-    if (ui.current) {
-      const uiRect = ui.current.getBoundingClientRect();
-      const size = Math.min(Math.min(uiRect.width, 800), uiRect.height);
-      const x = (uiRect.width - size) / 2;
-      const y = uiRect.y;
-      setChessBoardSizePos({ size, position: { x, y } });
-    }
+    if (ui.current === null) return;
+    setPortraitMode(
+      isPortraitLayout(ui.current.clientWidth, ui.current.clientHeight)
+    );
+    setChessBoardSize(
+      getChessBoardSize(
+        ui.current.clientWidth,
+        ui.current.clientHeight,
+        portraitMode,
+        SIDEBAR_MIN_WIDTH,
+        SIDEBAR_MIN_HEIGHT
+      )
+    );
+    const relativeChessBoardPosition = getChessBoardPosition(
+      ui.current.clientWidth,
+      ui.current.clientHeight,
+      chessBoardSize,
+      portraitMode
+    );
+    setChessBoardPosition({
+      x: relativeChessBoardPosition.x + ui.current.offsetLeft,
+      y: relativeChessBoardPosition.y + ui.current.offsetTop,
+    });
   };
 
   /**
@@ -92,24 +118,21 @@ export default function ChessMainUI() {
     return () => {
       observer.disconnect();
     };
-  }, []);
+  });
 
   return (
     <div
-      className="flex-1 flex flex-col items-center w-full overflow-hidden"
-      id={MAIN_UI_ID}
+      className={clsx(`flex flex-1`, portraitMode ? "flex-col" : "flex-row")}
       ref={ui}
     >
       <Chessboard
         showCoord={true}
-        CHESSBOARD_ID={CHESSBOARD_ID}
-        size={chessBoardSizePos.size}
-        position={chessBoardSizePos.position}
+        size={chessBoardSize}
+        position={chessBoardPosition}
         hidden={ui.current === null}
       />
       <div
-        className="absolute h-screen w-screen top-0 pointer-events-none"
-        id={PIECES_DIV_ID}
+        className="absolute h-screen w-screen top-0 left-0 pointer-events-none overflow-hidden" // don't capture any mouse events
       >
         {
           // Renders the chess pieces.
@@ -120,13 +143,24 @@ export default function ChessMainUI() {
                     {...piece}
                     position={absPosMapper(piece.position)}
                     key={piece.key}
-                    size={chessBoardSizePos.size / 8}
+                    size={chessBoardSize / 8}
                     onDragStop={pieceLocationUpdater(piece)}
                   />
                 );
               })
             : null
         }
+      </div>
+      <div
+        className="bg-slate-600"
+        style={
+          portraitMode
+            ? { width: 0, height: chessBoardSize }
+            : { width: chessBoardSize, height: 0 }
+        }
+      ></div>
+      <div className="bg-gray-800 basis-20 flex-grow">
+        <h2>Config Panel</h2>
       </div>
     </div>
   );
