@@ -5,13 +5,11 @@ const getCoord = (i: number, j: number) => {
 };
 
 export default function Chessboard({
-  CHESSBOARD_ID,
   showCoord = true,
   size,
   position,
   hidden,
 }: {
-  CHESSBOARD_ID: string;
   showCoord?: boolean;
   size: number;
   position: Position;
@@ -20,11 +18,10 @@ export default function Chessboard({
   return (
     <div
       role="grid"
-      className={`absolute ${
+      className={`${
         hidden ? "invisible" : "grid"
-      } grid-rows-8 text-red-50`}
-      style={{ width: size, height: size, left: position.x, top: position.y }}
-      id={CHESSBOARD_ID}
+      } grid-rows-8 text-red-50 absolute`}
+      style={{ width: size, height: size, top: position.y, left: position.x }}
     >
       {Array.from(Array(WIDTH)).map((_, i) => (
         <div key={i} role="row" className="grid grid-cols-8">

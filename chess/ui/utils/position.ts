@@ -1,14 +1,18 @@
-import { MutableRefObject } from "react";
+import { initialBoardState } from "../../BoardState";
 import {
   BoardState,
   HEIGHT,
   Position,
-  PositionedPiece,
   PositionedPieceArray,
   WIDTH,
-} from "../Types";
-import { initialBoardState } from "../BoardState";
+} from "../../Types";
 
+/**
+ * Convert board state to corresponding pieces in relative position.
+ *
+ * @param boardState
+ * @returns
+ */
 export const boardStateToRelPos = (
   boardState: BoardState
 ): PositionedPieceArray =>
@@ -20,9 +24,19 @@ export const boardStateToRelPos = (
     }))
   );
 
+/**
+ * Initial positioned board state.
+ */
 export const initialPositionedBoardState =
   boardStateToRelPos(initialBoardState);
 
+/**
+ * Convert pieces in relative position to absolute position in DOM.
+ *
+ * @param origin
+ * @param size
+ * @returns
+ */
 export const relToAbsPos =
   (origin: Position, size: number) =>
   (pos: Position): Position => ({
@@ -30,6 +44,13 @@ export const relToAbsPos =
     y: origin.y + pos.y * size,
   });
 
+/**
+ * Convert DOM space absolute position to relative position.
+ *
+ * @param origin
+ * @param size
+ * @returns
+ */
 export const absToRelPos =
   (origin: Position, size: number) =>
   (pos: Position): Position => ({
@@ -37,6 +58,13 @@ export const absToRelPos =
     y: (pos.y - origin.y) / size,
   });
 
+/**
+ * Check if a chess piece DOM space absolute position is on the board.
+ *
+ * @param origin
+ * @param size
+ * @returns
+ */
 export const isOnBoardWithBoardAndPiece =
   (origin: Position, size: number) => (position: Position) => {
     let halfSize = size / 2;
