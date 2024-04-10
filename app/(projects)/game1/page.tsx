@@ -85,7 +85,7 @@ export default function Page() {
     /**
      * Is touch device
      */
-    setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0);
+    setIsTouchDevice("ontouchstart" in window);
 
     // Cleanup
     return () => {
