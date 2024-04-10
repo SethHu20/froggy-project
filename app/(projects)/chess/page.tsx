@@ -11,7 +11,7 @@ import { useState } from "react";
 export default function Page() {
   const [config, setConfig] = useState<UIConfig>({
     coordinates: "axis",
-    sidebar: true,
+    sidebar: false,
   });
   console.log(config);
   return (
