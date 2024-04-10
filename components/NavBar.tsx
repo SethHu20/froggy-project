@@ -3,7 +3,8 @@ import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
 export default function NavBar() {
   return (
-    <nav className="">
+    // TODO: don't hide on md, make hamburger
+    <nav className="hidden md:block">
       <ul className="flex space-x-5 flex-row items-center">
         <li>
           <Link
