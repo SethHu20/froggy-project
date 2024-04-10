@@ -168,7 +168,7 @@ export default function ChessMainUI({ config }: { config: UIConfig }) {
       ></div>
       {config.sidebar ? (
         <div className="bg-gray-800 basis-20 flex-grow">
-          <h2>Config Panel</h2>
+          <h2>Sidebar panel is still under construction!</h2>
         </div>
       ) : null}
     </div>
