@@ -6,5 +6,13 @@
         "description": "A chess UI made with love",
         "image": "/projects/chess.jpg",
         "category": "game"
+    },
+    {
+        "id": 1,
+        "url": "/game1",
+        "title": "Game1",
+        "description": "The classical Game1 Web port",
+        "image": "/projects/game1.jpg",
+        "category": "game"
     }
 ]
