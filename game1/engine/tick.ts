@@ -53,6 +53,16 @@ export type UiHooks = {
    * @returns
    */
   onNewHighScore: (name: "highScore", value: string) => void;
+
+  /**
+   * Game status provided by the UI component
+   */
+  gameStatus: GameStatus;
+
+  /**
+   * Callback function to update the game status on the UI
+   */
+  setGameStatus: (status: GameStatus) => void;
 };
 
 export type GameState = {
@@ -147,6 +157,7 @@ export const tick = (stateRef: MutableRefObject<GameState>) => {
         ) {
           // Game over
           stateRef.current.status = GameStatus.GameOver;
+          stateRef.current.uiHooks.setGameStatus(GameStatus.GameOver);
 
           // Set high score if previously empty
           if (stateRef.current.uiHooks.highScore.highScore === undefined) {

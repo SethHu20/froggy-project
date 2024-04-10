@@ -17,9 +17,8 @@ export default function MainUI({
   score: number;
   highscore: string;
 }) {
-
   // Reference to highscore element
-  const highscoreRef = useRef<HTMLElement>(null);
+  const highscoreRef = useRef<HTMLDivElement>(null);
 
   // Since it uses information from cookies, Next.js have hydration issues with
   // cookie information. Highscore hydration is done after mount.
@@ -28,13 +27,15 @@ export default function MainUI({
   }, [highscore]);
 
   return (
-    <div className="relative w-screen h-screen">
+    <div className="relative w-screen flex-1">
       <Canvas orthographic>
         <Grid gameStateRef={gameStateRef} />
       </Canvas>
-      <div className="absolute bottom-0 right-0 space-x-5 p-5">
-        <span className="text-xl inline-block" ref={highscoreRef}></span>
-        <span className="text-9xl w-52 inline-block text-right">{score}</span>
+      <div className="absolute bottom-0 sm:right-0 space-x-5 w-full sm:w-fit p-2 sm:p-5 flex flex-row items-baseline align-bottom justify-between">
+        <div className="text-xl" ref={highscoreRef}></div>
+        <div className="text-6xl font-medium sm:font-normal sm:text-9xl sm:w-52 text-right">
+          {score}
+        </div>
       </div>
     </div>
   );
