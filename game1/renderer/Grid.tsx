@@ -41,7 +41,8 @@ export const Grid = ({
   // Grid gets scaled down to fit the viewport of three js
   const { viewport } = useThree();
   const minGridSize =
-    Math.min(viewport.width / GRID_WIDTH, viewport.height / GRID_HEIGHT) * 0.7;
+    Math.min(viewport.width / GRID_WIDTH, viewport.height / GRID_HEIGHT) *
+    (viewport.width < 480 ? 0.95 : 0.7);
 
   return (
     <group

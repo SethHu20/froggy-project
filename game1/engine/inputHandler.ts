@@ -3,12 +3,12 @@ import { GameState, GameStatus, defaultGameState } from "./tick";
 
 /**
  * Keyboard input controller
- * 
+ *
  * Takes in a mutable reference to the game state for modifying player position,
  * reading game status, and restarting the game.
- * 
+ *
  * @param gameStateRef mutable reference to the game state
- * @returns 
+ * @returns
  */
 export const keyboardInputController = (
   gameStateRef: MutableRefObject<GameState>
@@ -40,14 +40,31 @@ export const keyboardInputController = (
         case "Enter":
         case " ":
         case "r":
-          gameStateRef.current = defaultGameState(
-            gameStateRef.current.uiHooks,
-            true
-          );
+          resetGameState(gameStateRef);
           break;
       }
     }
   };
+};
+
+/**
+ * Touch input controller
+ *
+ * @param gameStateRef mutable reference to the game state
+ * @returns a function for moving player with direction, and another function
+ * for resetting the game state
+ */
+export const touchInputMovementController = (
+  gameStateRef: MutableRefObject<GameState>
+) => {
+  const movePlayerWithState = movePlayer(gameStateRef);
+  return [
+    (action: MovementDirection) => {
+      if (gameStateRef.current.status === GameStatus.Running)
+        movePlayerWithState(action);
+    },
+    () => resetGameState(gameStateRef),
+  ] as const;
 };
 
 export enum MovementDirection {
@@ -59,14 +76,14 @@ export enum MovementDirection {
 
 /**
  * Mutates game state to move the player in the given direction
- * 
+ *
  * The player is moved in the given direction if the player is not at the edge
  * of the game board.
- * 
+ *
  * The game board is a 9x9 grid with the player starting at the center (4, -4).
- * 
- * @param gameStateRef 
- * @returns 
+ *
+ * @param gameStateRef
+ * @returns
  */
 export const movePlayer =
   (gameStateRef: MutableRefObject<GameState>) =>
@@ -90,3 +107,11 @@ export const movePlayer =
         break;
     }
   };
+
+/**
+ * Reset the game state to the default state
+ */
+export const resetGameState = (gameStateRef: MutableRefObject<GameState>) => {
+  gameStateRef.current = defaultGameState(gameStateRef.current.uiHooks, true);
+  gameStateRef.current.uiHooks.setGameStatus(GameStatus.Running);
+};

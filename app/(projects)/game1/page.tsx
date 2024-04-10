@@ -1,12 +1,15 @@
 "use client";
 
 import ProjectHeaderBar from "@/components/ProjectHeaderBar";
-import { keyboardInputController } from "@/game1/engine/inputHandler";
-import { defaultGameState, tick } from "@/game1/engine/tick";
+import {
+  keyboardInputController,
+  MovementDirection,
+  touchInputMovementController
+} from "@/game1/engine/inputHandler";
+import { defaultGameState, GameStatus, tick } from "@/game1/engine/tick";
 import MainUI from "@/game1/ui/MainUI";
 import { useEffect, useRef, useState } from "react";
-import { CookiesProvider } from "react-cookie";
-import { useCookies } from "react-cookie";
+import { CookiesProvider, useCookies } from "react-cookie";
 
 export default function Page() {
   /**
@@ -26,6 +29,11 @@ export default function Page() {
   >(["highScore"]);
 
   /**
+   * Game status
+   */
+  const [gameStatus, setGameStatus] = useState(GameStatus.Running);
+
+  /**
    * GameState is intended to be a mutable model for the controller (tick.ts) and view (MainUI)
    * part of the game. The mutable copied is stored using useRef hook.
    *
@@ -42,16 +50,28 @@ export default function Page() {
         onRoundUpdate: setScore,
         highScore: highScore,
         onNewHighScore: setHighScore,
+        gameStatus,
+        setGameStatus,
       },
       false
     )
   );
 
   /**
+   * Is touch device
+   */
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  /**
    * Keyboard input controller with state
    */
   const keyboardInputControllerWithState =
     keyboardInputController(gameStateRef);
+
+  /**
+   * Touch input controller with state
+   */
+  const [touchMove, touchReset] = touchInputMovementController(gameStateRef);
 
   /**
    * Add event listener for keyboard input controller and tick the game state
@@ -62,12 +82,17 @@ export default function Page() {
     // Game Model tick
     const tickId = setInterval(() => tick(gameStateRef), 1000 / 60);
 
+    /**
+     * Is touch device
+     */
+    setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
     // Cleanup
     return () => {
       removeEventListener("keydown", keyboardInputControllerWithState);
       clearInterval(tickId);
     };
-  });
+  }, [keyboardInputControllerWithState]);
 
   return (
     // CookiesProvider is used to store high score in a cookie
@@ -78,6 +103,32 @@ export default function Page() {
           score={score}
           highscore={highScore["highScore"]}
         />
+        {isTouchDevice && (
+          <div className="bottom-0 w-full text-center text-xs grid grid-cols-3 grid-rows-2 gap-2 max-w-screen-sm">
+            <div
+              className="bg-slate-300 rounded-2xl aspect-square col-start-2 col-span-1 row-start-1 row-span-1"
+              onTouchStart={() => touchMove(MovementDirection.Up)}
+            ></div>
+            <div
+              className="bg-slate-300 rounded-2xl aspect-square col-start-1 col-span-1 row-start-2 row-span-1"
+              onTouchStart={() => touchMove(MovementDirection.Left)}
+            ></div>
+            <div
+              className="bg-slate-300 rounded-2xl aspect-square col-start-2 col-span-1 row-start-2 row-span-1"
+              onTouchStart={() => touchMove(MovementDirection.Down)}
+            ></div>
+            <div
+              className="bg-slate-300 rounded-2xl aspect-square col-start-3 col-span-1 row-start-2 row-span-1"
+              onTouchStart={() => touchMove(MovementDirection.Right)}
+            ></div>
+            {gameStateRef.current.status === GameStatus.GameOver && (
+              <div
+                className="bg-orange-500 rounded-2xl aspect-square col-start-1 col-span-1 row-start-1 row-span-1"
+                onTouchStart={() => touchReset()}
+              ></div>
+            )}
+          </div>
+        )}
         <ProjectHeaderBar title="Game1" absolute />
       </div>
     </CookiesProvider>
