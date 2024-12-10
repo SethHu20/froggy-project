@@ -97,7 +97,7 @@ export default function Page() {
   return (
     // CookiesProvider is used to store high score in a cookie
     <CookiesProvider>
-      <div className="bg-slate-800 text-white flex flex-col items-center h-screen min-h-screen w-screen min-w-fit">
+      <div className="flex flex-col items-center h-screen min-h-screen w-screen min-w-fit">
         <MainUI
           gameStateRef={gameStateRef}
           score={score}

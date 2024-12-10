@@ -10,6 +10,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      minWidth: {
+        '80': '20rem', // 320px
+      },
+      scale: {
+        '103': '1.03',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':

@@ -15,7 +15,7 @@ export default function Page() {
   });
   console.log(config);
   return (
-    <div className="bg-slate-800 text-white h-screen w-screen flex flex-col">
+    <div className="h-screen w-screen flex flex-col">
       <ProjectHeaderBar title="Chess">
         <SettingsMenu>
           <SettingsDropdown

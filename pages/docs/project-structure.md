@@ -6,26 +6,23 @@ You may have realise that we *most likely* won't be using any fancy Next.js rout
 
 Here's a short list for what the project directory should look like:
 
-- app
-  - (landing)
-    - project
-      - ...
-    - page.tsx
+- `app`
+  - `(landing)`
+    - `project`
+    - `page.tsx`
     - ...
-  - (projects)
-    - chess
+  - `(projects)`
+    - `chess`
       - ...
-    - tetris
-      - ...
-    - minesweeper
-      - ...
+    - `tetris`
+    - `minesweeper`
     - ...
-- pages
-  - docs
+- `pages`
+  - `docs`
     - ...
-- components
-- public
-- chess *
+- `components`
+- `public`
+- `chess *`
 
 More details and justification are found in here:
 
@@ -39,13 +36,15 @@ Nextra (the documentation library used here) only supports pages. Luckily docume
 
 This folder houses various landing pages, sub-pages, and other non-project pages. Doing so allows us to easily reuse a layout (using `layout.tsx`) within the landing pages, we may not want these layout to appear in the actual project pages, that's why they are split into Next.js groups, which are folders with names in parenthesis.
 
-The `project` subdirectory here is used to display the list of all projects, which will grow over time. It may reuse the layout as mentioned before and should show as a list format. (TODO: How should we store the metadata for the projects? JSON, Markdown, or something else?). This should not be confused with the `../(projects)` subdirectory
+The `project` subdirectory here is used to display the list of all projects, which will grow over time. It may reuse the layout as mentioned before and should show as a list format (You can learn about projects information are kept in [`project-list.json` documentation](/docs/project-list.json)). This should not be confused with the `../(projects)` subdirectory.
 
 ### (projects)
 
 Here is a list of all projects, a very basic `layout.tsx` can be added for some Tailwind CSS stuffs, or some other error handling code, but it should be kept to a minimum so not to interfere with each sub-projects.
 
 Each project will be a subdirectory, ideally it should be self contained. However since this project is heading for a monorepo structure, feel free to make libraries and utility functions that can be reused across multiple projects.
+
+> **Note on `app/layout.tsx`**: on top of dedicated `layout.tsx` files found on either the landing page or projects page, there is a global `layout.tsx` file that is used for all pages. Recently this file was refactored to have basically nothing but some metadata. Part of the reason of the refactor is to reduce redundant divs just for styles like fonts and colours. It should hopefully not interfere with any project pages for maximum flexibility (if it does, please let us know). I'm still figuring out how "empty" the `(projects)/layout.tsx` should be, as of now it only contains html and body tags with font styles. If you intended to make new pages in either landing or projects section, and wanted the styling to be consistent, but without committing design choices to the global layout, affecting all pages, your option is to create another `layout.tsx` file for the appropriate subdirectory, and basing the design from `(landing)/layout.tsx`, as the landing page styles are most complete and consistent to the Froggy Project design.
 
 ## pages
 

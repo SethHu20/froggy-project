@@ -4,13 +4,14 @@ export function ProjectCard(project: ProjectProperty) {
   return (
     <a href={project.url} target="_parent" rel="noopener noreferrer"
     className="relative group block justify-center w-full h-80 overflow-clip bg-slate-600 
-    drop-shadow-xl rounded-xl hover:scale-105 transition-transform ease-in-out duration-75">
+    drop-shadow-xl rounded-xl hover:scale-103 transition-transform ease-in-out duration-75">
       <figure className="flex items-center justify-center h-full">
         <Image
           src={project.image}
           alt={project.title}
-          width={1000}
+          width={1500}
           height={1000}
+          sizes="100vw"
           className="h-full max-w-full object-cover"
         />
       </figure>
