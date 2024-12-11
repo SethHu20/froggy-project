@@ -151,7 +151,7 @@ export default function ChessMainUI({ config }: { config: UIConfig }) {
                     position={absPosMapper(piece.position)}
                     key={piece.key}
                     size={chessBoardSize / 8}
-                    onDragStop={pieceLocationUpdater(piece)}
+                    onDragStopAction={pieceLocationUpdater(piece)}
                   />
                 );
               })

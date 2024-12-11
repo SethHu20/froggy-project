@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint --dir pages --dir components --dir lib --dir app --dir chess"
   },
   "dependencies": {
     "@nextui-org/react": "^2.6.8",
@@ -28,14 +28,16 @@
     "three": "^0.162.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.16.0",
     "@types/lodash": "^4.17.13",
     "@types/node": "^20.17.10",
     "@types/react": "19.0.1",
     "@types/react-dom": "19.0.2",
+    "@typescript-eslint/parser": "8.18.0",
     "autoprefixer": "^10.4.20",
-    "eslint": "^8.57.1",
+    "eslint": "^9.16.0",
     "eslint-config-next": "15.1.0",
-    "@typescript-eslint/parser": "8.0.0",
     "postcss": "^8.4.49",
     "sharp": "^0.33.5",
     "tailwindcss": "^3.4.16",

@@ -9,12 +9,12 @@ export default function Piece({
   piece,
   size,
   position,
-  onDragStop,
+  onDragStopAction
 }: {
   piece: PlayerPiece;
   size: number;
   position: { x: number; y: number };
-  onDragStop: (_: any, data: Position) => void;
+  onDragStopAction: (_: any, data: Position) => void;
 }) {
   return (
     /**
@@ -28,7 +28,7 @@ export default function Piece({
     <Rnd
       size={{ width: size, height: size }}
       position={position}
-      onDragStop={onDragStop}
+      onDragStop={onDragStopAction}
       bounds="parent"
       enableResizing={false}
       enableUserSelectHack={true}
