@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import { MutableRefObject, useRef } from "react";
+import { RefObject, useRef } from "react";
 import { Mesh, Vector3 } from "three";
 import { GameState } from "../engine/tick";
 
@@ -9,7 +9,7 @@ import { GameState } from "../engine/tick";
 export const Player = ({
   gameStateRef,
 }: {
-  gameStateRef: MutableRefObject<GameState>;
+  gameStateRef: RefObject<GameState>;
 }) => {
   // Reference to modify player position
   const playerMesh = useRef<Mesh>(null);

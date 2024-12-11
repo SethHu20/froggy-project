@@ -1,5 +1,5 @@
 import { range } from "lodash";
-import { MutableRefObject } from "react";
+import { RefObject } from "react";
 import { randInt, seededRandom } from "three/src/math/MathUtils.js";
 
 /**
@@ -141,7 +141,7 @@ export const defaultGameState = (uiHooks: UiHooks, rerender: boolean) => {
   } as GameState;
 };
 
-export const tick = (stateRef: MutableRefObject<GameState>) => {
+export const tick = (stateRef: RefObject<GameState>) => {
   // Mutate game state for performance reasons
   switch (stateRef.current.status) {
     case GameStatus.GameOver:

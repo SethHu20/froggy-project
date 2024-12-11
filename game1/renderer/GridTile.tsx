@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import { MutableRefObject, useRef } from "react";
+import { RefObject, useRef } from "react";
 import { Color, MeshBasicMaterial } from "three";
 import { GameState, GameStatus } from "../engine/tick";
 
@@ -17,7 +17,7 @@ export const GridTile = ({
 }: {
   x: number;
   y: number;
-  gameStateRef: MutableRefObject<GameState>;
+  gameStateRef: RefObject<GameState>;
 }) => {
   /**
    * Modify material color based on the game state

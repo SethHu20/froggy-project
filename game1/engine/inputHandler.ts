@@ -1,4 +1,4 @@
-import { MutableRefObject } from "react";
+import { RefObject } from "react";
 import { GameState, GameStatus, defaultGameState } from "./tick";
 
 /**
@@ -11,7 +11,7 @@ import { GameState, GameStatus, defaultGameState } from "./tick";
  * @returns
  */
 export const keyboardInputController = (
-  gameStateRef: MutableRefObject<GameState>
+  gameStateRef: RefObject<GameState>
 ) => {
   const movePlayerWithState = movePlayer(gameStateRef);
   return (e: KeyboardEvent) => {
@@ -55,7 +55,7 @@ export const keyboardInputController = (
  * for resetting the game state
  */
 export const touchInputMovementController = (
-  gameStateRef: MutableRefObject<GameState>
+  gameStateRef: RefObject<GameState>
 ) => {
   const movePlayerWithState = movePlayer(gameStateRef);
   return [
@@ -86,7 +86,7 @@ export enum MovementDirection {
  * @returns
  */
 export const movePlayer =
-  (gameStateRef: MutableRefObject<GameState>) =>
+  (gameStateRef: RefObject<GameState>) =>
   (movementDirection: MovementDirection) => {
     switch (movementDirection) {
       case MovementDirection.Up:
@@ -111,7 +111,7 @@ export const movePlayer =
 /**
  * Reset the game state to the default state
  */
-export const resetGameState = (gameStateRef: MutableRefObject<GameState>) => {
+export const resetGameState = (gameStateRef: RefObject<GameState>) => {
   gameStateRef.current = defaultGameState(gameStateRef.current.uiHooks, true);
   gameStateRef.current.uiHooks.setGameStatus(GameStatus.Running);
 };

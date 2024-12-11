@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
-import { MutableRefObject, useEffect, useRef } from "react";
+import { RefObject, useEffect, useRef } from "react";
 import { GameState } from "../engine/tick";
 import { Grid } from "../renderer/Grid";
 
@@ -13,7 +13,7 @@ export default function MainUI({
   score,
   highscore,
 }: {
-  gameStateRef: MutableRefObject<GameState>;
+  gameStateRef: RefObject<GameState>;
   score: number;
   highscore: string;
 }) {

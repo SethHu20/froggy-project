@@ -1,6 +1,6 @@
 import { extend, useThree } from "@react-three/fiber";
 import { range } from "lodash";
-import { MutableRefObject } from "react";
+import { RefObject } from "react";
 import { WebGLRenderTarget } from "three";
 import { GameState } from "../engine/tick";
 import { GridTile } from "./GridTile";
@@ -20,7 +20,7 @@ const GRID_WIDTH = 9,
 export const Grid = ({
   gameStateRef,
 }: {
-  gameStateRef: MutableRefObject<GameState>;
+  gameStateRef: RefObject<GameState>;
 }) => {
   // TODO: Might be expensive on mount, GridTile is a mesh that recompile on every mount
   // https://docs.pmnd.rs/react-three-fiber/advanced/pitfalls#tips-and-tricks
