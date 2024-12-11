@@ -13,7 +13,6 @@ export default function Page() {
     coordinates: "axis",
     sidebar: false,
   });
-  console.log(config);
   return (
     <div className="h-screen w-screen flex flex-col">
       <ProjectHeaderBar title="Chess">

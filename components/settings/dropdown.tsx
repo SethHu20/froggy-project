@@ -18,13 +18,13 @@ export default function SettingsDropdown({
         title={label}
         onChange={onChange}
         className="bg-slate-800 p-3 rounded-md"
+        value={defaultValue}
       >
         {options.map(([label, value], i) => (
           <option
             key={i}
             value={value}
             className="bg-slate-800"
-            selected={value === defaultValue}
           >
             {label}
           </option>

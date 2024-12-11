@@ -14,6 +14,7 @@ export default function Logo() {
         width={50}
         height={50}
         className="drop-shadow-3xl group-hover:animate-standingBounce"
+        priority
       />
       <span className="pr-3 hidden sm:block">
         <strong>Froggy Project</strong>

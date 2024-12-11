@@ -40,6 +40,7 @@ export default function Piece({
         fill
         sizes="100%"
         className="pointer-events-none"
+        priority
       />
     </Rnd>
   );
