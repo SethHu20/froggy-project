@@ -1,20 +1,22 @@
 "use client";
 
+import { JSX } from "react";
+
 export default function SettingsCheckbox({
   label,
   checked,
-  onChange,
+  onChangeAction,
 }: {
   label: string;
   checked: boolean;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeAction: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }): JSX.Element {
   return (
     <div className="flex flex-row items-center p-3 even:bg-slate-600">
       <input
         type="checkbox"
         checked={checked}
-        onChange={onChange}
+        onChange={onChangeAction}
         className="mr-2 h-6 w-6 accent-sky-300"
         title={label}
       />

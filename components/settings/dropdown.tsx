@@ -1,14 +1,16 @@
 "use client";
 
+import { JSX } from "react";
+
 export default function SettingsDropdown({
   label,
   options,
-  onChange,
+  onChangeAction,
   defaultValue,
 }: {
   label: string;
   options: [string, string][];
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChangeAction: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   defaultValue: string;
 }): JSX.Element {
   return (
@@ -16,7 +18,7 @@ export default function SettingsDropdown({
       <label className="w-max">{label}</label>
       <select
         title={label}
-        onChange={onChange}
+        onChange={onChangeAction}
         className="bg-slate-800 p-3 rounded-md"
         value={defaultValue}
       >

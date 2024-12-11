@@ -24,7 +24,7 @@ export default function Page() {
               ["None", "none"],
               ["Axis only", "axis"],
             ]}
-            onChange={(e) => {
+            onChangeAction={(e) => {
               setConfig({
                 ...config,
                 coordinates: e.target.value as CoordinatesConfig,
@@ -35,7 +35,7 @@ export default function Page() {
           <SettingsCheckbox
             label="Show sidebar"
             checked={config.sidebar}
-            onChange={() => {
+            onChangeAction={() => {
               setConfig({ ...config, sidebar: !config.sidebar });
             }}
           />
